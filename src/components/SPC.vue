@@ -149,7 +149,7 @@ export default {
         name: "VIOLATION",
         showlegend: true,
         marker: {
-          color: "rgb(255,65,54)",
+          color: this.theme.error,
           line: { width: 5 },
           opacity: 1,
           size: 14,
@@ -172,7 +172,7 @@ export default {
         name: "spc.LCL_UCL",
         showlegend: true,
         line: {
-          color: "red",
+          color: this.theme.error,
           width: 2,
           dash: "dash"
         }
@@ -196,7 +196,7 @@ export default {
           type: "line",
           xref: "paper",
           x0: 0,
-          x1: 1,
+          x1: 0.8,
           y0: this.cl,
           y1: this.cl,
           line: {
@@ -209,10 +209,10 @@ export default {
           xref: "paper",
           x0: 0,
           y0: this.lcl,
-          x1: 1,
+          x1: 0.8,
           y1: this.lcl,
           line: {
-            color: "red",
+            color: this.theme.error,
             width: 2,
             dash: "dash"
           }
@@ -222,22 +222,40 @@ export default {
           xref: "paper",
           x0: 0,
           y0: this.ucl,
-          x1: 1,
+          x1: 0.8,
           y1: this.ucl,
           line: {
-            color: "red",
+            color: this.theme.error,
             width: 2,
             dash: "dash"
           }
         }
       ];
 
-      const data = [Data, Viol, CL, Center];
+      let histo = {
+        type: 'histogram',
+        x: [...Array(this.chartData.y.length).keys()],
+        y: this.chartData.y,
+        name: 'Distribution',
+        orientation: 'h',
+        marker: {
+          color: this.theme.primary,
+          line: {
+            color: this.theme.gridColor,
+            width: 1
+          }
+        },
+        xaxis: 'x2',
+        yaxis: 'y2'
+      };
+
+      const data = [Data, Viol, CL, Center, histo];
 
       const layout = {
         title: this.chartTitle,
         shapes: CCL,
         xaxis: {
+          domain: [0, 0.8], // 0 to 70% of width
           zeroline: false,
           gridcolor: this.theme.gridColor,
           rangeselector: selectorOptions,
@@ -247,6 +265,13 @@ export default {
           zeroline: false,
           gridcolor: this.theme.gridColor,
           range: [this.dataMinMax.min, this.dataMinMax.max]
+        },
+        xaxis2: {
+          domain: [0.85, 1] // 70 to 100% of width
+        },
+        yaxis2: {
+          anchor: 'x2',
+          showticklabels: false
         },
         template: {
           layout: {
