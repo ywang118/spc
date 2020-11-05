@@ -28,8 +28,8 @@
             no-title
             scrollable
             range
-            @update:picker-date="menu2 = false"  
-            @change="onDateRangeChange" 
+            @update:picker-date="menu2 = false"
+            @change="onDateRangeChange"
         >
         </v-date-picker>
       </v-menu>
@@ -41,14 +41,22 @@
 <script>
 export default {
   name: "DatePicker",
+  props: {
+    dates: {
+      type: Array,
+      default: () => {},
+    }
+  },
   data: () => ({
-    dates: ['2019-09-10', '2019-09-20'],
     menu1: false,
     menu2: false,
   }),
   computed: {
     dateRangeText () {
-      return this.dates.join(' ~ ')
+      if (this.dates) {
+        return this.dates.join(' ~ ');
+      }
+      return ""
     },
 
   },
