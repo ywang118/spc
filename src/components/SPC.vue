@@ -1,5 +1,5 @@
 <template>
-  <div id="spc_chart" class="spc_chart" style="height:100%"/>
+  <div id="spc_chart" class="spc_chart" />
 </template>
 
 <script>

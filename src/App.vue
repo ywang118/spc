@@ -16,7 +16,7 @@
 
       <p>上限： {{ucl}} </p>
       <p>下限： {{lcl}} </p>
-      <p>中心線： {{medianChange}} </p>
+      <p>中心線： {{aveChange}} </p>
       <p v-bind:style="{ color: 'red'}">average:{{aveChange}}</p>
       <p v-bind:style="{ color: 'red'}">sd: {{sdChange}}</p>
 
@@ -25,7 +25,7 @@
           :chartData="ifSelected"
           :ucl="ucl"
           :lcl="lcl"
-          :cl="median"
+          :cl="aveChange"
       />
     </v-main>
   </v-app>
@@ -83,7 +83,7 @@ export default {
     //選擇日期
     datesSelected: [],
     sampleData: {}
-  
+
   }),      //--------end of data                 -------------------------//
   computed:{
 
@@ -97,13 +97,13 @@ export default {
         });
 
         var half = Math.floor(values.length / 2);
-        
+
         if (values.length % 2)
           return values[half];
         return (values[half - 1] + values[half]) / 2.0;
-      } 
+      }
     },
-    //average 
+    //average
     average: function(){
       return (values)=> {
         const ave = (array) => array.reduce((a, b) => a + b) / array.length
@@ -125,13 +125,13 @@ export default {
         return Number(Math.round(value +'e'+ decimals) +'e-'+ decimals).toFixed(decimals);
       }
     },
-    //ucl 
+    //ucl
     ucl: function(){
-      return parseFloat(this.round(this.medianChange + this.quantity * this.sdChange,2))
+      return parseFloat(this.round(this.aveChange + this.quantity * this.sdChange,2))
     },
     //lcl
     lcl: function(){
-      return parseFloat(this.round(this.medianChange- this.quantity * this.sdChange,2))
+      return parseFloat(this.round(this.aveChange- this.quantity * this.sdChange,2))
     },
     //change date format
     dateFormat: function(){
@@ -139,13 +139,12 @@ export default {
         return str.split('-').map(x=>+x)
       }
     },
-    
     //filter date
     resultDate(){
       const startDate = new Date(this.dateFormat(this.dates[0]))
       const endDate = new Date(this.dateFormat(this.dates[1]))
       const result = this.chartData.x.filter((dateStr)=>{
-         var date = new Date(this.dateFormat(dateStr)) 
+         var date = new Date(this.dateFormat(dateStr))
         return date >= startDate && date <= endDate
       })
       return result
@@ -155,7 +154,7 @@ export default {
       const startDate = new Date(this.dateFormat(this.dates[0]))
       const endDate = new Date(this.dateFormat(this.dates[1]))
       const result = this.chartData.x.map((dateStr)=>{
-         var date = new Date(this.dateFormat(dateStr)) 
+         var date = new Date(this.dateFormat(dateStr))
         return date >= startDate && date <= endDate
       })
       return result
@@ -163,7 +162,7 @@ export default {
     getAllIndexes:function(){
       return (arr,val)=>{
         var indexes = [], i = -1;
-        while ((i = arr.indexOf(val, i+1)) != -1){
+        while ((i = arr.indexOf(val, i+1)) !== -1){
           indexes.push(i);
         }
        return indexes;
@@ -175,7 +174,7 @@ export default {
       let xArr = []
       let yArr = []
       let newArr = {}
-      for (let i=0;i< arr.length; i++){
+      for (let i=arr[0]; i <= arr[arr.length-1]; i++){
         xArr.push(this.chartData.x[i]),
         yArr.push(this.chartData.y[i])
       }
@@ -183,9 +182,9 @@ export default {
       newArr.y = yArr
       return newArr
     },
-   
+
     //  *------- SPC chart  -----*
-     
+
     ifSelected(){
       return Object.keys(this.sampleData).length === 0? this.chartData : this.sampleData
     },
@@ -205,7 +204,7 @@ export default {
       // 因此，假設收集到的資料符合常態分佈的假設，若觀測值落在樣本平均值正負 3 個樣本標準差以外的數值，可判定該觀測值屬於離群值。
       console.log("根據時間範圍內之數據, 計算出 n 個標準差的SPC上下限", this.dates)
       // this.$emit('input', this.quantity)
-      
+
       this.quantity==='' ? this.quantity=0: this.quantity=parseInt(this.quantity)
     },
     onDateRangeChange(e){
@@ -213,11 +212,7 @@ export default {
       this.datesSelected = this.resultDate
       console.log(this.resultData, 'DATESELECTED')
       this.sampleData = this.resultData
-    
- 
     },
-   
   },
- 
 };
 </script>
