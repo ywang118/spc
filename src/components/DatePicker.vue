@@ -34,7 +34,6 @@
         </v-date-picker>
       </v-menu>
     </v-col>
-    <!-- dates-test : {{resultDate}} -->
   </v-row>
 </template>
 
@@ -42,15 +41,27 @@
 export default {
   name: "DatePicker",
   props: {
-    dates: {
+    defaultDates: {
       type: Array,
-      default: () => {},
+      default:()=> []
     }
   },
   data: () => ({
     menu1: false,
     menu2: false,
+    dates: []
   }),
+   created () {
+    this.dates= this.defaultDates
+    // console.log(this.dates,"dats")
+  },
+  // mounted () {
+  //   console.log('mounted:', this.defaultDates)
+  //   this.dates = this.defaultDates;
+  // },
+  // beforeUpdate () {
+  //   console.log('beforeUpdate:', this.defaultDates)
+  // },
   computed: {
     dateRangeText () {
       if (this.dates) {
@@ -58,6 +69,7 @@ export default {
       }
       return ""
     },
+ 
 
   },
   methods: {

@@ -1,24 +1,68 @@
 <template>
   <v-app>
     <v-main>
-      <DatePicker :dates="dates" @input="data_select" @onDateRangeChange="onDateRangeChange($event)" />
-      <p v-bind:style="{ color: 'red'}"> dates-test : {{dates}} {{sampleData}}</p>
-      <v-checkbox
-          v-model="cal_all"
-          :label="`隨時間變化（全部資料計算標準差）: ${cal_all.toString()}`"
-      />
-
-      <v-text-field
-          v-model="quantity"
-          label="標準差"
-          @input="data_select"
-      />
-
-      <p>上限： {{ucl}} </p>
-      <p>下限： {{lcl}} </p>
-      <p>中心線： {{aveChange}} </p>
+      <!-- <p v-bind:style="{ color: 'red'}"> dates-test : {{dates}} {{sampleData}}</p>
       <p v-bind:style="{ color: 'red'}">average:{{aveChange}}</p>
-      <p v-bind:style="{ color: 'red'}">sd: {{sdChange}}</p>
+      <p v-bind:style="{ color: 'red'}">sd: {{sdChange}}</p> -->
+      <div class="info-div">
+        <v-card
+          max-width="750"
+          class="mx-auto"
+
+        >
+        
+          <v-list one-line>
+            <v-list-item>
+            
+              <DatePicker :defaultDates="dates" @input="data_select" @onDateRangeChange="onDateRangeChange($event)" />
+              
+            </v-list-item>
+           
+            <v-list-item>
+  
+              <v-checkbox
+                  v-model="cal_all"
+                  :label="`隨時間變化（全部資料計算標準差）: ${cal_all.toString()}`"
+              />
+            </v-list-item>
+           
+            <v-list-item>
+              <v-row>
+                <v-col
+                  cols="12"
+                  sm="6"
+                  md="3"
+                >
+                  <v-text-field 
+                   outlined
+                    v-model="quantity"
+                    label="標準差"
+                    @input="data_select"
+                  />
+                </v-col> 
+              </v-row>
+            </v-list-item>
+          </v-list>
+        </v-card>
+      </div>
+
+      <div class="spc_lines">
+        <v-container  fill-height >
+          <v-row justify="center" align="center"  style="height: 20px;">
+            <v-col cols="12" sm="4" md="4"  >
+              <p>上限： {{ucl}} </p>
+            </v-col>
+            <v-col cols="12" sm="4" md="4">
+              <p>下限： {{lcl}} </p>
+            </v-col>
+            <v-col cols="12" sm="4" md="4">
+              <p>中心線： {{aveChange}} </p>
+            </v-col>
+          </v-row>
+        </v-container>  
+      </div>
+
+
 
       <SPC
           chartTitle="SPC"
@@ -81,7 +125,6 @@ export default {
     // 計算標準差，只根據此區間計算
     dates: ['2010-01-10', '2011-08-10'],
     //選擇日期
-    datesSelected: [],
     sampleData: {}
 
   }),      //--------end of data                 -------------------------//
@@ -113,7 +156,6 @@ export default {
     //标准差
     sd1: function(){
       return (values)=>{
-        // const values= this.chartData.y
         const n = values.length
         const mean = values.reduce((a, b) => a + b) / n
         return Math.sqrt(values.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / (n-1))
@@ -171,6 +213,7 @@ export default {
     //过滤过的data
     resultData(){
       const arr = this.getAllIndexes(this.mapDate, true)
+      // console.log("arr",arr)
       let xArr = []
       let yArr = []
       let newArr = {}
@@ -208,11 +251,19 @@ export default {
       this.quantity==='' ? this.quantity=0: this.quantity=parseInt(this.quantity)
     },
     onDateRangeChange(e){
+      console.log(this.dates,"dates")
       this.dates = e
-      this.datesSelected = this.resultDate
+       console.log(this.dates,"updated_dates")
       console.log(this.resultData, 'DATESELECTED')
       this.sampleData = this.resultData
     },
   },
 };
 </script>
+<style>
+  body {
+    padding-right: 50px;
+    padding-left:50px;
+  }
+ 
+</style>

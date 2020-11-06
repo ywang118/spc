@@ -1,5 +1,7 @@
 <template>
-  <div id="spc_chart" class="spc_chart" />
+  <div class="chart">
+    <div id="spc_chart" class="spc_chart" />
+  </div>
 </template>
 
 <script>
@@ -47,7 +49,7 @@ export default {
       success: "#4CAF50",
       warning: "#FFC107",
       background: "#E3F2FD",
-      gridColor: "#AAAAAA",
+      gridColor: "#d3d3d3",
       text: "#263238"
     }
   }),
@@ -122,6 +124,7 @@ export default {
         }
       };
 
+
       const Data = {
         type: "scatter",
         x: this.chartData.x,
@@ -136,7 +139,7 @@ export default {
         },
         marker: {
           // color: "blue",
-          size: 8,
+          size: 7,
           symbol: "circle"
         }
       };
@@ -150,9 +153,9 @@ export default {
         showlegend: true,
         marker: {
           color: this.theme.error,
-          line: { width: 5 },
+          line: { width: 4 },
           opacity: 1,
-          size: 14,
+          size: 13,
           symbol: "circle-open"
         }
       };
@@ -186,8 +189,10 @@ export default {
         name: "spc.CL",
         showlegend: true,
         line: {
-          color: this.theme.info,
-          width: 2
+          color: 'grey',
+          width: 2,
+          opacity: 0.5, 
+          
         }
       };
 
@@ -200,7 +205,8 @@ export default {
           y0: this.cl,
           y1: this.cl,
           line: {
-            color: this.theme.info,
+            color: 'grey',
+            opacity: 0.5, 
             width: 2
           }
         },
@@ -213,6 +219,7 @@ export default {
           y1: this.lcl,
           line: {
             color: this.theme.error,
+            opacity: 0.8, 
             width: 2,
             dash: "dash"
           }
@@ -225,6 +232,7 @@ export default {
           x1: 0.8,
           y1: this.ucl,
           line: {
+            opacity: 0.8, 
             color: this.theme.error,
             width: 2,
             dash: "dash"
@@ -302,7 +310,7 @@ export default {
       const max = Math.max(...this.chartData.y, this.ucl);
       return {
         min: min - Math.abs(Math.ceil(min*1.2)),
-        max: max + Math.abs(Math.ceil(max*1.2))
+        max: max + Math.abs(Math.ceil(max*0.5))
       };
     },
     dataViol() {
@@ -330,3 +338,11 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+  .chart {
+   
+    padding-bottom: 20px;
+    background-color: #E3F2FD
+  }
+</style>
