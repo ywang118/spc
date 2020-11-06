@@ -5,48 +5,52 @@
       <p v-bind:style="{ color: 'red'}">average:{{aveChange}}</p>
       <p v-bind:style="{ color: 'red'}">sd: {{sdChange}}</p> -->
       <div class="info-div">
-        <v-card
-          max-width="750"
-          class="mx-auto"
-
-        >
-        
-          <v-list one-line>
-            <v-list-item>
-            
-              <DatePicker :defaultDates="dates" @input="data_select" @onDateRangeChange="onDateRangeChange($event)" />
-              
-            </v-list-item>
-           
-            <v-list-item>
-  
-              <v-checkbox
-                  v-model="cal_all"
-                  :label="`隨時間變化（全部資料計算標準差）: ${cal_all.toString()}`"
-              />
-            </v-list-item>
-           
-            <v-list-item>
-              <v-row>
-                <v-col
-                  cols="12"
-                  sm="6"
-                  md="3"
-                >
-                  <v-text-field 
-                   outlined
-                    v-model="quantity"
-                    label="標準差"
-                    @input="data_select"
+        <v-container fluid class="myGrid">
+          <v-card color="orange lighten-2" tile flat
+            max-width="750"
+            class="orange"
+          >
+            <v-card-text>
+              <v-list one-line>
+                <v-list-item>
+                  <DatePicker :defaultDates="dates" @input="data_select" @onDateRangeChange="onDateRangeChange($event)" />
+                </v-list-item>
+                <v-list-item>
+                  <v-checkbox
+                      v-model="cal_all"
+                      :label="`隨時間變化（全部資料計算標準差）: ${cal_all.toString()}`"
                   />
-                </v-col> 
-              </v-row>
-            </v-list-item>
-          </v-list>
-        </v-card>
+                </v-list-item>  
+                <v-list-item>
+                  <v-row>
+                    <v-col
+                      cols="12"
+                      sm="6"
+                      md="3"
+                    >
+                      <v-text-field 
+                      outlined
+                        v-model="quantity"
+                        label="標準差"
+                        @input="data_select"
+                      />
+                    </v-col> 
+                  </v-row>
+                </v-list-item>
+              </v-list>
+            </v-card-text>
+          </v-card>
+          <v-card class="indigo" color="indigo lighten-2" dark tile flat>
+            <v-card-text class="center-text">
+              <p>上限： {{ucl}} </p>
+              <p>下限： {{lcl}} </p>
+              <p>中心線： {{aveChange}} </p>
+            </v-card-text>
+          </v-card>
+        </v-container>
       </div>
 
-      <div class="spc_lines">
+      <!-- <div class="spc_lines">
         <v-container  fill-height >
           <v-row justify="center" align="center"  style="height: 20px;">
             <v-col cols="12" sm="4" md="4"  >
@@ -60,10 +64,7 @@
             </v-col>
           </v-row>
         </v-container>  
-      </div>
-
-
-
+      </div> -->
       <SPC
           chartTitle="SPC"
           :chartData="ifSelected"
@@ -265,5 +266,23 @@ export default {
     padding-right: 50px;
     padding-left:50px;
   }
- 
+  .myGrid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows:auto ;
+    grid-template-areas: "orange indigo";
+    grid-gap: 0.5rem;
+  }
+  .center-text{
+    text-align: center; 
+  }
+  .center-text p {
+    font-size:20px ;
+  }
+  .indigo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+  }
 </style>
