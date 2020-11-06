@@ -1,14 +1,14 @@
 <template>
   <v-app>
     <v-main>
-      <!-- <p v-bind:style="{ color: 'red'}"> dates-test : {{dates}} {{sampleData}}</p>
+      <p v-bind:style="{ color: 'red'}"> dates-test : {{dates}} {{sampleData}}</p>
       <p v-bind:style="{ color: 'red'}">average:{{aveChange}}</p>
-      <p v-bind:style="{ color: 'red'}">sd: {{sdChange}}</p> -->
+      <p v-bind:style="{ color: 'red'}">sd: {{sdChange}}</p>
       <div class="info-div">
         <v-container fluid class="myGrid">
-          <v-card color="orange lighten-2" tile flat
+          <v-card color="white lighten-2" 
             max-width="750"
-            class="orange"
+            class="white"
           >
             <v-card-text>
               <v-list one-line>
@@ -270,7 +270,7 @@ export default {
     display: grid;
     grid-template-columns: 2fr 1fr;
     grid-template-rows:auto ;
-    grid-template-areas: "orange indigo";
+    grid-template-areas: "white indigo";
     grid-gap: 0.5rem;
   }
   .center-text{
