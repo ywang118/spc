@@ -1,8 +1,8 @@
 <template>
     <div class="chart">
-        {{this.value}}
+        <!-- {{this.value}}
         {{this.pieTitle}}
-        total: {{this.totalValue}}
+        total: {{this.totalValue}} -->
         <div id="pie_chart" class="pie_chart" />
     </div>
 </template>
@@ -48,15 +48,13 @@ export default {
                     },
                     showarrow: false,
                     text: this.totalValue,
-                    x: 0.2,
+                    x: 0.5,
                     y: 0.5
                     }
                     
                 ],
-                height: 400,
-                width: 600,
-               
-                grid: {rows: 1, columns: 2}
+                height: 300,
+                width: 400
                 };
 
             Plotly.newPlot('pie_chart', data, layout)

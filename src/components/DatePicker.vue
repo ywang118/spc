@@ -1,9 +1,7 @@
 <template>
   <v-row>
     <v-col
-        cols="12"
-        sm="6"
-        md="4"
+    
     >
       <v-menu
           ref="menu1"
@@ -81,5 +79,8 @@ export default {
 </script>
 
 <style scoped>
+.v-date-picker{
+      width: 400px;
+}
 
 </style>

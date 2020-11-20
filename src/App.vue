@@ -4,14 +4,15 @@
       <!-- <p v-bind:style="{ color: 'red'}"> dates-test : {{dates}} {{sampleData}}</p>
       <p v-bind:style="{ color: 'red'}">average:{{aveChange}}</p>
       <p v-bind:style="{ color: 'red'}">sd: {{sdChange}}</p> -->
-      <PieChart :value="pieChartValue" />
+      
       <div class="info-div">
-        <v-container fluid class="myGrid">
+        <v-container fluid class="myGrid" >
           <v-card color="white lighten-2" 
             max-width="750"
             class="white"
+            max-height='400'
           >
-            <v-card-text>
+            <v-card-text >
               <v-list one-line>
                 <v-list-item>
                   <DatePicker :defaultDates="dates" @input="data_select" @onDateRangeChange="onDateRangeChange($event)" />
@@ -40,6 +41,9 @@
                 </v-list-item>
               </v-list>
             </v-card-text>
+          </v-card>
+          <v-card max-width="550" class="pie_chart"  color="white" dark tile flat> 
+            <PieChart :value="pieChartValue" />
           </v-card>
           <v-card class="indigo" color="indigo lighten-2" dark tile flat>
             <v-card-text class="center-text">
@@ -333,9 +337,9 @@ export default {
   }
   .myGrid {
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 1fr 1fr 0.5fr;
     grid-template-rows:auto ;
-    grid-template-areas: "white indigo";
+    grid-template-areas: "white pie_chart indigo";
     grid-gap: 0.5rem;
   }
   .center-text{
