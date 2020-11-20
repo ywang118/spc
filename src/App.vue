@@ -1,9 +1,10 @@
 <template>
   <v-app>
     <v-main>
-      <p v-bind:style="{ color: 'red'}"> dates-test : {{dates}} {{sampleData}}</p>
+      <!-- <p v-bind:style="{ color: 'red'}"> dates-test : {{dates}} {{sampleData}}</p>
       <p v-bind:style="{ color: 'red'}">average:{{aveChange}}</p>
-      <p v-bind:style="{ color: 'red'}">sd: {{sdChange}}</p>
+      <p v-bind:style="{ color: 'red'}">sd: {{sdChange}}</p> -->
+      <PieChart :value="pieChartValue" />
       <div class="info-div">
         <v-container fluid class="myGrid">
           <v-card color="white lighten-2" 
@@ -48,6 +49,7 @@
             </v-card-text>
           </v-card>
         </v-container>
+        
       </div>
 
       <!-- <div class="spc_lines">
@@ -71,7 +73,10 @@
           :ucl="ucl"
           :lcl="lcl"
           :cl="aveChange"
+          @getData = 'getMsg'
       />
+    
+      
     </v-main>
   </v-app>
 </template>
@@ -79,6 +84,7 @@
 <script>
 import SPC from './components/SPC.vue';
 import DatePicker from './components/DatePicker.vue';
+import PieChart from './components/PieChart.vue'
 
 export default {
   name: 'App',
@@ -86,6 +92,7 @@ export default {
   components: {
     SPC,
     DatePicker,
+    PieChart,
   },
 
   data: () => ({
@@ -115,6 +122,50 @@ export default {
       y: [20,22,21,19,5,18,20,22,17,19,
         23,23,22,17,19,20,19,22,18,23] //defect 數量
     },
+    typeData: [
+      {
+        "date": "2010-05-10",
+        "type6": 10,
+        "type7": 23,
+        "type1":8
+      },
+      {
+        "date": "2010-01-10",
+        "type2": 90,
+        "type1": 12,
+        "type10":3
+      },
+       {
+        "date": "2010-02-10",
+        "type4": 90,
+        "type2": 12,
+        "type10":30,
+        "type3": 90,
+        "type1": 12,
+        "type5":30
+      },
+      {
+        "date": "2010-03-10",
+        "type7": 55,
+        "type1": 12,
+        "type5":33
+      },
+      {
+        "date": "2010-04-10",
+        "type9": 22,
+        "type3": 11,
+        "type11":45
+      },
+       {
+        "date": "2010-06-10",
+        "type9": 40,
+        "type3": 14,
+        "type5": 12
+      }
+
+    ],
+
+    pts: [],
     // //Q3
     // ucl: 27.25,
     // //Q1
@@ -241,6 +292,16 @@ export default {
     aveChange(){
       return Object.keys(this.sampleData).length === 0 ? this.average(this.chartData.y): this.average(this.sampleData.y)
     },
+    //------------------- PIE CHART ----------------------
+    pieChartValue(){
+      let arr =[]
+      for (let i = 0; i<this.typeData.length; i++){
+        if (this.typeData[i].date=== this.pts[0]){
+          arr.push(this.typeData[i])
+        }
+      }
+      return arr
+    },
   }, // --------end of computed        -----------------------------------//
   methods: {
     data_select() {
@@ -257,6 +318,10 @@ export default {
        console.log(this.dates,"updated_dates")
       console.log(this.resultData, 'DATESELECTED')
       this.sampleData = this.resultData
+    },
+    getMsg(data){
+      this.pts = data
+      console.log('parents',this.pts)
     },
   },
 };

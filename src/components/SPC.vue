@@ -1,6 +1,6 @@
 <template>
   <div class="chart">
-    <div id="spc_chart" class="spc_chart" />
+    <div id="spc_chart" class="spc_chart" @click="sendMsgtoParent"/>
   </div>
 </template>
 
@@ -40,6 +40,7 @@ export default {
     }
   },
   data: () => ({
+    points: [],
     theme: {
       primary: "#2196F3",
       secondary: "#82B1FF",
@@ -259,6 +260,7 @@ export default {
 
       const data = [Data, Viol, CL, Center, histo];
 
+
       const layout = {
         title: this.chartTitle,
         shapes: CCL,
@@ -299,8 +301,13 @@ export default {
       };
 
       Plotly.newPlot("spc_chart", data, layout, options);
+      
+    },
+    sendMsgtoParent(){
+      this.$emit('getData',this.points)
     }
-  },
+  },  
+  ////////////////////////////////     ------------------end of methods
   computed: {
     dataLength() {
       return Math.abs(Math.ceil(Math.max(...this.chartData.x) * 1.2));
@@ -328,7 +335,21 @@ export default {
     }
   },
   mounted() {
+    let that =this
     this.drawPlot();
+
+    var myPlot = document.getElementById('spc_chart')
+    myPlot.on('plotly_click', function(data){
+      console.log("data",data)
+      var pts = [];
+       
+        pts.push(data.points[0].x)
+        pts.push(data.points[0].y)
+      that.points = pts
+      console.log('pts',that.points)
+      
+    });
+
   },
   created() {
     window.addEventListener("resize", this.myEventHandler);
